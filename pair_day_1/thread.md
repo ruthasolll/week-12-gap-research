@@ -1,30 +1,32 @@
- 
 1/ I trained a model using DPO… but it didn’t beat the base model.
 
-Here’s why 👇
+Here’s what actually happened 👇
 
-2/ DPO doesn’t directly maximize task performance.
+2/ DPO does NOT directly optimize task accuracy.
 
-It optimizes:
-👉 preference between responses
-
-Not:
-👉 absolute correctness
+It optimizes preference separation:
+👉 increase probability of preferred responses
+👉 decrease probability of rejected responses
+(relative to a frozen reference model)
 
 3/ Mechanism:
-It increases probability of preferred outputs vs rejected ones
+DPO updates parameters to widen the log-probability gap between preferred and rejected outputs.
 
-But…
-this depends heavily on your dataset quality.
+But this only works if the preference signal matches the evaluation target.
 
-4/ If your evaluation ≠ your training objective,
-you get NO improvement.
+4/ In my case:
+- training preferences rewarded tone + fluency
+- evaluation measured structured correctness + compliance
 
-That’s what happened in my case.
+So the model improved “style” but not benchmark score.
 
-5/ Takeaway:
-DPO is powerful, but only when:
-- preferences are high-quality
-- evaluation aligns with training
+5/ This creates a failure mode:
+If your preference dataset ≠ evaluation objective → no measurable lift.
 
-6/ Full breakdown here: [link]
+Even if training loss improves.
+
+6/ Takeaway:
+DPO only improves downstream metrics when preference labels are a *true proxy* for the evaluation function.
+
+Otherwise, you are optimizing the wrong surface.
+

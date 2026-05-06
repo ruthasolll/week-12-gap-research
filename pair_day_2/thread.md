@@ -1,31 +1,78 @@
- 
 # Day 2 Thread — Agent & Tool Use Internals
 
-1/ My LLM had tools… but didn’t really use them correctly.
+1/ Problem I ran into:
 
-It kept producing normal text instead of structured tool calls.
+I built a system with “tools” (MCP server + schemas), but the LLM almost never produced valid tool calls.
 
-2/ Tool use is NOT a special capability.
+Instead, it:
+- wrote normal text
+- or produced malformed JSON
+- or ignored tools entirely
 
-It’s just next-token prediction:
-- text tokens vs structured tokens
+2/ My assumption was wrong.
 
-3/ A tool call only happens when structured tokens become more probable than natural language.
+I thought tool-use was something the model *does internally*.
 
-Example: `{ "name": ... }`
+But after debugging Week 10, I realized:
+👉 the model was never actually being put into a real tool-use setting
 
-4/ Why it breaks:
-- weak prompts → model ignores structure
-- unclear schemas → no strong pattern
-- no examples → no guidance
-- high randomness → broken JSON
+3/ Key correction:
 
-5/ Key insight:
+Tool use is NOT a special reasoning mode.
 
-If output is not schema-compliant and parseable, then tool use did NOT happen.
+It is just token prediction under constraints.
 
-6/ Tool reliability is not magic.
+The model is always doing:
+P(next token | prompt)
 
-It’s prompt design + token probability + decoding behavior.
+4/ So what is a “tool call”?
 
-Full write-up: [link]
+It’s just a high-probability structured sequence like:
+
+{
+  "name": "send_email",
+  "arguments": {...}
+}
+
+If this pattern is not strongly favored → tool use fails.
+
+5/ Why my system failed
+
+In my setup:
+- tool schemas were not strictly structured
+- no few-shot tool examples
+- no decoding constraints (JSON enforcement)
+- model defaulted to natural language
+
+So:
+👉 P(text) >> P(tool-call)
+
+6/ Important diagnostic insight:
+
+If the output is:
+- unstructured
+- not parseable
+- not schema-valid
+
+Then tool use did NOT happen.
+
+It was just normal text generation.
+
+7/ What real tool use requires
+
+To reliably trigger tool calls:
+
+- strict JSON schemas (not human docstrings)
+- few-shot tool-call examples
+- constrained decoding (low temperature / JSON mode)
+
+These shift probability mass toward structured outputs.
+
+8/ Final insight
+
+What I called “agent behavior” was actually:
+
+👉 deterministic orchestration + text generation
+
+Not:
+👉 model-driven tool execution

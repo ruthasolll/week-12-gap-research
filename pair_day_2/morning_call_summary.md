@@ -1,0 +1,2 @@
+ 
+We reviewed each other’s initial questions and focused on making the mechanism more explicit and observable at inference time. My question was sharpened by clearly defining “valid tool call” as schema-compliant and parseable output rather than vague tool usage. My peer’s question was refined to focus on token-level behavior and the boundary between model generation and system parsing. By the end of the call, both questions were grounded in real Week 10 MCP implementations and framed around concrete failure modes rather than general curiosity.

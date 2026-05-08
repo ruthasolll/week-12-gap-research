@@ -1,176 +1,343 @@
-Week 12 — Knowledge Gap Research & Explainers
-Overview
+# **Week 12 — Knowledge Gap Research & Explainers Overview**
 
-This repository contains my Week 12 work focused on closing real knowledge gaps in AI systems I previously built (Weeks 10 & 11).
+This repository contains my Week 12 work focused on closing real knowledge gaps in AI systems I previously built during Weeks 10 and 11.
 
 Instead of building new systems, this week focused on:
 
-identifying gaps in my understanding
-researching the underlying mechanisms
-writing public explainers
-grounding insights back into my existing portfolio
+- identifying diagnostic gaps in my understanding
+- researching underlying LLM mechanisms
+- writing technical explainers
+- grounding insights back into existing portfolio artifacts
+- publicly documenting findings through LinkedIn explainers
 
 Each day followed a paired research loop:
 
-Identify and sharpen a diagnostic question
-Write an explainer for a peer’s question
-Receive an explainer for my own gap
-Update prior work based on new understanding
-Day 1 — Inference-Time Mechanics
+1. Identify and sharpen a diagnostic question
+2. Write an explainer for a peer’s question
+3. Receive an explainer for my own gap
+4. Ground the insight back into prior project work
 
-📁 pair_DAY_1/
+---
 
-My Question
+# **Day 1 — Preference Optimization vs Evaluation Metrics**
 
-Focused on understanding why my DPO-trained model did not outperform the base model, despite successful training.
+📁 `pair_DAY_1/`
 
-Key gap:
-Misunderstanding the difference between preference optimization (DPO) and evaluation metrics.
+## **My Question**
 
-Explainer I Wrote
+Focused on understanding why my DPO-trained model in Week 11 underperformed the original base model despite successful fine-tuning.
 
-I wrote an explainer on:
+### Key gap:
 
-Prefill vs Decode phases
-KV cache
-Why prompt length affects latency
-How prompt structure influences model behavior
+I misunderstood what DPO actually optimizes.
 
-This addressed my partner’s gap about:
+I initially assumed:
 
-what actually happens inside an LLM call and how prompt/output affect cost, latency, and behavior.
+> lower training loss → better benchmark performance
 
-Explainer I Received
+But DPO does not directly optimize task correctness.
 
-My peer explained:
+It optimizes relative preference probabilities between chosen and rejected outputs.
 
-what DPO optimizes at the gradient level
-why it reshapes relative probabilities, not absolute correctness
-why misalignment between training signal and evaluation leads to no improvement
-Key Insight
+---
 
-Better training ≠ better evaluation performance
-
-Specifically:
-
-DPO improves preference alignment
-Benchmarks measure task correctness
-If these are not aligned → no performance gain
-Grounding Into My Work
-
-I began updating my Week 11 evaluation documentation to:
-
-correct my interpretation of ablation results
-explain why the fine-tuned model did not outperform the base model
-distinguish between behavior shaping vs capability improvement
-Day 2 — Post-Training Objective vs Behavioral Change
-
-📁 pair_DAY_2/
-
-My Question
-
-Focused on understanding why instruction-tuned models feel “smarter” or more capable even when their underlying pretraining remains unchanged.
-
-Key gap:
-Confusion between:
-
-improved instruction-following
-actual improvement in reasoning capability
-Explainer I Wrote
+## **Explainer I Wrote**
 
 I wrote an explainer on:
 
-attention patterns during multi-turn instruction following
-how structured prompts reshape decoding trajectories
-why format compliance improves without capability gain
+- inference-time mechanics
+- prefill vs decode phases
+- KV cache behavior
+- prompt-token latency effects
+- how prompt structure affects runtime behavior
 
 This addressed my partner’s gap about:
 
-why prompt formatting strongly affects reasoning consistency and output structure in LLM systems.
+> what physically happens inside an LLM inference call and how prompt length changes latency, memory, and generation behavior.
 
-Explainer I Received
+---
+
+## **Explainer I Received**
 
 My peer explained:
 
-post-training (SFT/RLHF) does not add new knowledge
-it modifies preference distributions over outputs
-instruction tuning makes prompts more “legible” to the model
-Key Insight
+- DPO reshapes relative output probabilities
+- it widens preference margins rather than improving correctness
+- preference datasets only help when aligned with evaluation metrics
+- benchmark failure can happen even when training “succeeds”
 
-Instruction tuning improves control, not raw intelligence
+---
+
+## **Key Insight**
+
+Better training loss ≠ better benchmark performance.
 
 Specifically:
 
-pretraining defines capability space
-post-training improves navigation of that space
-prompting selects trajectories inside it
-Grounding Into My Work
+- DPO optimizes preference separation
+- benchmarks measure task correctness
+- if those objectives differ → performance may not improve
 
-I updated my Week 10 Conversion Engine notes to:
+---
 
-remove implied equivalence between “better formatting” and “better reasoning”
-clarify that structured prompts improve decoding stability, not model intelligence
-refine agent behavior design assumptions in my pipeline
-Day 3 — Inference-Time Steering and Latent Behavior Activation
+## **Grounding Into My Work**
 
-📁 pair_DAY_3/
+I updated my Week 11 evaluation interpretation to:
 
-My Question
+- separate preference alignment from capability improvement
+- correctly interpret negative Delta B results
+- explain why training success did not transfer into evaluation success
 
-Focused on understanding why structured prompts drastically change agent behavior even though no model weights are updated.
+---
 
-Key gap:
-Misinterpreting prompting as “activation of skills” instead of runtime computation shaping.
+## **Public Explainer**
 
-Explainer I Wrote
+LinkedIn Post:
+
+[Day 1 LinkedIn Explainer](https://www.linkedin.com/posts/ruth-solomon-6676ab239_10academy-trp1-week12-share-7458621324387803136-fwG8?utm_medium=member_desktop&rcm=ACoAADtej-8B5I7GKDmFX4hLNF3i1fyZ5Qlk1FM&utm_source=chatgpt.com)
+
+---
+
+# **Day 2 — Tool Use, Schemas, and Structured Decoding**
+
+📁 `pair_DAY_2/`
+
+## **My Question**
+
+Focused on understanding why my MCP-based tool system in the Week 10 Conversion Engine failed to reliably trigger tool calls.
+
+The model frequently:
+
+- generated normal text
+- produced malformed JSON
+- ignored tools entirely
+
+### Key gap:
+
+I misunderstood how tool calling actually works at inference time.
+
+---
+
+## **Explainer I Wrote**
 
 I wrote an explainer on:
 
-pretraining vs post-training vs prompting
-latent representation space in transformers
-how structured prompts bias probability distributions
+- inference-time token prediction
+- structured decoding
+- schema-constrained generation
+- API-level tool registration
+- probability shaping toward structured outputs
 
 This addressed my partner’s gap about:
 
-how prompting can reliably produce structured outputs (JSON, reasoning steps, tool-like behavior) without explicit training for each format.
+> why prompt formatting and schema structure strongly affect reliable tool usage in LLM systems.
 
-Explainer I Received
+---
+
+## **Explainer I Received**
 
 My peer explained:
 
-prompting works by conditioning internal representations, not switching modules
-behavior emerges from trajectory shifts in token probability space
-in-context learning is temporary task construction inside the forward pass
-Key Insight
+- tool use is not a special internal reasoning capability
+- models only predict token sequences
+- tool schemas injected as plain text are not equivalent to registered API tools
+- passing tools through `tools=[...]` changes the generation distribution because the schema becomes part of the provider’s structured tool interface
 
-Prompting is not activation — it is representation steering
+This was the major missing mechanism in my system.
+
+---
+
+## **Key Insight**
+
+Tool use is not execution inside the model.
+
+It is:
+
+> probability shaping toward structured token sequences under constrained decoding.
+
+The runtime system — not the model — parses and executes the tool call.
+
+---
+
+## **Grounding Into My Work**
+
+I updated my Week 10 Conversion Engine assumptions to:
+
+- separate orchestration from generation
+- stop treating malformed JSON as “partial tool use”
+- recognize that API-level schema registration matters more than natural-language tool descriptions
+- redesign my tool schemas toward strict structured outputs
+
+---
+
+## **Public Explainer**
+
+LinkedIn Post:
+
+[Day 2 LinkedIn Explainer](https://www.linkedin.com/posts/ruth-solomon-6676ab239_10academy-trp1-week12-share-7458623093977071616-kYF3?utm_medium=member_desktop&rcm=ACoAADtej-8B5I7GKDmFX4hLNF3i1fyZ5Qlk1FM&utm_source=chatgpt.com)
+
+---
+
+# **Day 3 — Pretraining, Post-Training, and Prompt Steering**
+
+📁 `pair_DAY_3/`
+
+## **My Question**
+
+Focused on understanding why changing only prompt structure dramatically improved behavior in my Week 10 Conversion Engine without changing any model weights.
+
+### Key gap:
+
+I confused prompting with “activating new abilities.”
+
+---
+
+## **Explainer I Wrote**
+
+I wrote an explainer on:
+
+- pretraining mechanics
+- instruction tuning
+- RLHF behavior shaping
+- latent representation steering
+- prompting as inference-time conditioning
+
+This addressed my partner’s gap about:
+
+> how prompting can produce reasoning, formatting, and tool-like behavior without new training.
+
+---
+
+## **Explainer I Received**
+
+My peer explained:
+
+- pretraining builds latent capability space
+- post-training reshapes preference distributions
+- prompting steers which internal trajectories dominate during inference
+- no new capability is created at runtime
+
+---
+
+## **Key Insight**
+
+Prompting does not create intelligence.
+
+It steers computation trajectories through already-learned representations.
 
 Specifically:
 
-no new capabilities are created at inference time
-prompts reshape computation paths across layers
-behavior emerges from constrained decoding trajectories
-Grounding Into My Work
+- pretraining builds capability space
+- post-training shapes behavioral preference
+- prompting selects trajectories inside that space
 
-I updated my Week 10/11 Conversion Engine documentation to:
+---
 
-correct “prompting improves reasoning” framing
-replace it with “prompting steers inference-time computation”
-formalize capability vs behavior vs selection separation across system layers
-Final Outcome of Week 12
+## **Grounding Into My Work**
 
-Across all three days, the core shift was:
+I updated my Week 10/11 project framing to:
 
-moving from a “prompting creates behavior” model
-to a “prompting selects and reshapes existing representation trajectories” model
+- stop describing prompting as “unlocking abilities”
+- replace it with inference-time representation steering
+- distinguish capability learning from behavioral control
+- formalize the separation between:
+  - capability
+  - alignment
+  - prompting
+  - decoding behavior
+
+---
+
+## **Public Explainer**
+
+LinkedIn Post:
+
+[Day 3 LinkedIn Explainer](https://www.linkedin.com/posts/ruth-solomon-6676ab239_10academy-trp1-week12-share-7458623628818001921-bcYU?utm_medium=member_desktop&rcm=ACoAADtej-8B5I7GKDmFX4hLNF3i1fyZ5Qlk1FM&utm_source=chatgpt.com)
+
+---
+
+# **Day 4 — Bootstrap Confidence Intervals in LLM Evaluation**
+
+📁 `pair_DAY_4/`
+
+## **My Question**
+
+Focused on understanding what paired-bootstrap confidence intervals actually mean in my Week 11 Sales Evaluation Bench.
+
+### Key gap:
+
+I reported confidence intervals and p-values but could not statistically defend what they represented.
+
+---
+
+## **Explainer I Received**
+
+My peer explained:
+
+- paired bootstrap resampling
+- uncertainty estimation over task deltas
+- why percentile bootstrap can become overconfident
+- spike-at-zero failure modes
+- assumptions behind exchangeability and independence
+- why statistical significance ≠ deployment usefulness
+
+---
+
+## **Key Insight**
+
+Bootstrap confidence intervals only estimate sampling uncertainty.
+
+They do NOT measure:
+
+- benchmark validity
+- judge-model bias
+- deployment usefulness
+- product effectiveness
+
+A statistically significant improvement can still fail the real deployment requirement.
+
+---
+
+## **Grounding Into My Work**
+
+I updated my Week 11 evaluation interpretation to:
+
+- properly explain paired bootstrap assumptions
+- separate statistical significance from product usefulness
+- identify overconfidence risks in small evaluation sets
+- clarify limitations of judge-based evaluation pipelines
+
+---
+
+# **Overall Outcome of Week 12**
+
+Across all four days, the major shift was moving from:
+
+> “models gain new behaviors through prompting and fine-tuning”
+
+to:
+
+> “LLM behavior emerges from probability shaping across training, post-training, prompting, and decoding constraints.”
 
 This clarified:
 
-why training improvements don’t always reflect in benchmarks
-why instruction tuning changes behavior without adding capability
-why prompting can appear to “unlock intelligence”
-Overall Impact
-Strengthened conceptual grounding of Week 10 Conversion Engine
-Corrected multiple over-attributions of capability gain
-Established a consistent mental model of LLM behavior across training stages
-Improved evaluation interpretation for future experiments
+- why training improvements may not appear in benchmarks
+- why prompting changes behavior without changing capability
+- why tool use depends on structured decoding constraints
+- why statistical significance does not guarantee deployment usefulness
+- why inference-time behavior is fundamentally trajectory selection inside pretrained representation space
+
+---
+
+# **Overall Impact**
+
+Week 12 significantly strengthened the conceptual grounding behind my previous projects.
+
+### Key improvements:
+
+- corrected multiple misunderstandings about DPO and evaluation
+- formalized a clearer mental model of inference-time behavior
+- improved understanding of tool calling and structured decoding
+- strengthened statistical interpretation of benchmark results
+- improved ability to defend evaluation claims technically
+- grounded theoretical mechanisms back into Weeks 10 and 11 artifacts

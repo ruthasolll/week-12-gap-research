@@ -5,4 +5,4 @@ In my Week 11 project, I trained a language model using DPO for a sales-agent ev
 
 What exactly does Direct Preference Optimization (DPO) optimize at the gradient level compared to supervised fine-tuning, and under what conditions does it fail to improve downstream evaluation metrics?
 
-<!--  -->
+ Understanding this would help me determine when DPO is an appropriate method for improving model performance in real-world FDE deployments, especially when evaluation scores do not reflect training improvements. 

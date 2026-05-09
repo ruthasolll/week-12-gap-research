@@ -12,10 +12,10 @@ Instead of building new systems, this week focused on:
 
 Each day followed a paired research loop:
 
-1. Identify and sharpen a diagnostic question
-2. Write an explainer for a peer’s question
-3. Receive an explainer for my own gap
-4. Ground the insight back into prior project work
+1. Identify and sharpen a diagnostic question  
+2. Write an explainer for a peer’s question  
+3. Receive an explainer for my own gap  
+4. Ground the insight back into prior project work  
 
 ---
 
@@ -27,8 +27,7 @@ Each day followed a paired research loop:
 
 Focused on understanding why my DPO-trained model in Week 11 underperformed the original base model despite successful fine-tuning.
 
-### Key gap:
-
+### **Key gap**
 I misunderstood what DPO actually optimizes.
 
 I initially assumed:
@@ -112,8 +111,7 @@ The model frequently:
 - produced malformed JSON
 - ignored tools entirely
 
-### Key gap:
-
+### **Key gap**
 I misunderstood how tool calling actually works at inference time.
 
 ---
@@ -186,8 +184,7 @@ LinkedIn Post:
 
 Focused on understanding why changing only prompt structure dramatically improved behavior in my Week 10 Conversion Engine without changing any model weights.
 
-### Key gap:
-
+### **Key gap**
 I confused prompting with “activating new abilities.”
 
 ---
@@ -264,8 +261,7 @@ LinkedIn Post:
 
 Focused on understanding what paired-bootstrap confidence intervals actually mean in my Week 11 Sales Evaluation Bench.
 
-### Key gap:
-
+### **Key gap**
 I reported confidence intervals and p-values but could not statistically defend what they represented.
 
 ---
@@ -309,6 +305,14 @@ I updated my Week 11 evaluation interpretation to:
 
 ---
 
+## **Public Explainer**
+
+LinkedIn Post:
+
+[Day 4 LinkedIn Explainer](https://www.linkedin.com/posts/ruth-solomon-6676ab239_10academy-trp1-week12-share-7458977119109345280-Pg5t?utm_medium=member_desktop&rcm=ACoAADtej-8B5I7GKDmFX4hLNF3i1fyZ5Qlk1FM&utm_source=chatgpt.com)
+
+---
+
 # **Overall Outcome of Week 12**
 
 Across all four days, the major shift was moving from:
@@ -333,7 +337,7 @@ This clarified:
 
 Week 12 significantly strengthened the conceptual grounding behind my previous projects.
 
-### Key improvements:
+## **Key improvements**
 
 - corrected multiple misunderstandings about DPO and evaluation
 - formalized a clearer mental model of inference-time behavior
